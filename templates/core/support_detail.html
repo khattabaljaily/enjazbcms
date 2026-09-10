@@ -154,12 +154,12 @@
         {% for msg in ticket_messages %}
         <div class="tsd-msg {% if msg.sender_type == 'admin' %}tsd-msg--admin{% else %}tsd-msg--center{% endif %}">
             <div class="tsd-msg__avatar tsd-msg__avatar--{{ msg.sender_type }}">
-                {{ msg.sender.full_name|slice:':1'|default:msg.sender.username|slice:':1'|upper }}
+                {% if msg.sender_type == 'admin' %}E{% else %}{% firstof msg.sender.full_name msg.sender.username "?" as sender_label %}{{ sender_label|slice:':1'|upper }}{% endif %}
             </div>
             <div class="tsd-msg__content">
                 <div class="tsd-msg__meta">
                     <span class="tsd-msg__name">
-                        {% if msg.sender_type == 'admin' %}فريق EnjazBCMS{% else %}{{ msg.sender.full_name|default:msg.sender.username }}{% endif %}
+                        {% if msg.sender_type == 'admin' %}فريق EnjazBCMS{% else %}{% firstof msg.sender.full_name msg.sender.username "؟" %}{% endif %}
                     </span>
                     <span class="tsd-msg__role tsd-msg__role--{{ msg.sender_type }}">
                         {% if msg.sender_type == 'admin' %}الدعم الفني{% else %}أنت{% endif %}

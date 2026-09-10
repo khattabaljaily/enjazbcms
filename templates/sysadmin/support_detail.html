@@ -177,11 +177,11 @@
             {% for msg in ticket_messages %}
             <div class="sup-msg {% if msg.sender_type == 'admin' %}sup-msg--admin{% else %}sup-msg--center{% endif %}">
                 <div class="sup-msg__avatar sup-msg__avatar--{{ msg.sender_type }}">
-                    {{ msg.sender.full_name|slice:':1'|default:msg.sender.username|slice:':1'|upper }}
+                    {% firstof msg.sender.full_name msg.sender.username "?" as sender_label %}{{ sender_label|slice:':1'|upper }}
                 </div>
                 <div class="sup-msg__content">
                     <div class="sup-msg__meta">
-                        <span class="sup-msg__name">{{ msg.sender.full_name|default:msg.sender.username }}</span>
+                        <span class="sup-msg__name">{% firstof msg.sender.full_name msg.sender.username "؟" %}</span>
                         <span class="sup-msg__role sup-msg__role--{{ msg.sender_type }}">
                             {% if msg.sender_type == 'admin' %}مشرف النظام{% else %}الاشتراك{% endif %}
                         </span>
